@@ -41,9 +41,11 @@ export default class RepoScreen extends Component {
         );
       }
       return (
-        <View>
           <FlatList
             data={info}
+            keyExtractor={(item) => {
+              return item.name;
+            }}
             renderItem={({ item }) => (
               <View>
                 <TouchableOpacity style={styles.repoTab}>
@@ -59,9 +61,7 @@ export default class RepoScreen extends Component {
                 </TouchableOpacity>
               </View>
             )}
-            keyExtractor={(item) => item.id}
           />
-        </View>
       );
     }
 }

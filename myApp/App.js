@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -8,7 +7,6 @@ import ProfileScreen from './profile_screen';
 import RepoScreen from './repo_screen';
 import FollowerScreen from './follower_screen';
 import FollowingScreen from './following_screen';
-// import LoadingScreen from './loading_screen';
 
 const Stack = createStackNavigator();
 // const Drawer = createDrawerNavigator();

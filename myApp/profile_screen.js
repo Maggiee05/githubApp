@@ -3,8 +3,14 @@ import {
   Text, View, Image, TouchableOpacity,
 } from 'react-native';
 
+// import token from './auth_token';
 import styles from './style';
 import Profile from './profile_model';
+
+/**
+ * The profile screen class
+ * Handling the frontend of the profile, renderins the info needed
+ */
 
 export default class ProfileScreen extends Component {
     static navigationOptions = {
@@ -13,7 +19,11 @@ export default class ProfileScreen extends Component {
 
     constructor(props) {
       super(props);
+      //   this.state = {
+      //       hidden: true,
+      //   };
       this.state = {};
+      //   const accessToken = token;
       this.profile = new Profile();
       this.setProfile();
     }
@@ -31,15 +41,23 @@ export default class ProfileScreen extends Component {
         followersCt: response.data.viewer.followers.totalCount,
         followingCt: response.data.viewer.following.totalCount,
         createDate: response.data.viewer.createdAt,
+
+        // loading: response.loading,
+        error: response.error,
       });
     }
 
     render() {
       const {
         avatarUrl, name, username, bio, website, email,
-        createDate, RepoCt, followersCt, followingCt,
+        createDate, RepoCt, followersCt, followingCt, error,
       } = this.state;
       const { navigation } = this.props;
+      if (error) {
+        return (
+          <Text>Error :( </Text>
+        );
+      }
       return (
         <View style={styles.container}>
           <Image style={{ marginTop: '5%', width: 150, height: 150 }} source={{ uri: avatarUrl }} />

@@ -1,14 +1,28 @@
 import fetch from 'node-fetch';
-import { access } from './auth_token';
+import { acc } from 'react-native-reanimated';
+
+import token from './auth_token';
+// import loading from './loading_screen';
+
+/**
+ * The profile model class
+ * Handling the fetch API for the profile screen
+ */
 
 export default class Profile {
   constructor() {
     // this.data = this.getProfile();
     this.data = null;
+    // this.accessToken = accessToken;
+    this.loading = true;
+    this.error = false;
+    // this.state = {
+    //   hidden: true,
+    // }
   }
 
   async getProfile() {
-    const accessToken = access.token;
+    const accessToken = token;
     const query = `
       query { 
         viewer { 
@@ -41,9 +55,12 @@ export default class Profile {
       });
 
       const response = await res.json();
+      // this.setState({hidden:false});
+      // this.loading = false;
       this.data = response;
       return response;
     } catch (error) {
+      this.error = true;
       return console.error(error);
     }
   }

@@ -1,13 +1,20 @@
 import fetch from 'node-fetch';
-import { access } from './auth_token';
+import token from './auth_token';
+
+/**
+ * The repositories model class
+ * Handling the fetch API for the repositories screen
+ */
 
 export default class Repo {
   constructor() {
+    // this.accessToken = accessToken;
     this.data = null;
+    this.loading = true;
   }
 
   async getRepo() {
-    const accessToken = access.token;
+    const accessToken = token;
     const query = `
             query { 
                 viewer {
@@ -33,6 +40,7 @@ export default class Repo {
 
       const response = await res.json();
       this.data = response;
+      this.loading = false;
       return response;
     } catch (error) {
       return console.error(error);

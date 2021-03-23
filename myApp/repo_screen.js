@@ -5,6 +5,12 @@ import {
 
 import styles from './style';
 import Repo from './repo_model';
+// import token from './auth_token';
+
+/**
+ * The repositories screen class
+ * Handling the frontend of the repositories, renderins the info needed
+ */
 
 export default class RepoScreen extends Component {
     static navigationOptions = {
@@ -22,11 +28,18 @@ export default class RepoScreen extends Component {
       const response = await this.repo.getRepo();
       this.setState({
         info: response.data.viewer.repositories.nodes,
+
+        // loading: response.loading, // handling loading
       });
     }
 
     render() {
-      const { info } = this.state;
+      const { info, loading } = this.state;
+      if (loading) {
+        return (
+          <Text>Loading....</Text>
+        );
+      }
       return (
         <View>
           <FlatList
@@ -35,19 +48,13 @@ export default class RepoScreen extends Component {
               <View>
                 <TouchableOpacity style={styles.repoTab}>
                   <Text style={styles.repoName}>
-                    {' '}
                     {item.name}
-                    {' '}
                   </Text>
                   <Text style={styles.repoOwner}>
-                    {' '}
                     {item.owner.login}
-                    {' '}
                   </Text>
                   <Text style={styles.repoText}>
-                    {' '}
                     {item.description}
-                    {' '}
                   </Text>
                 </TouchableOpacity>
               </View>

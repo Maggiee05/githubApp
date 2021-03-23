@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, ScrollView} from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
-import styles from './style.js';
-
+import {
+  Text, View,
+} from 'react-native';
+import styles from './style';
 
 export default class FollowingScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
-    render() {
-        return (
-            <View style={styles.container}>                
-                <Text>TO DO for Following</Text>
-            </View>
-        );
-    }
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text>TO DO for Following</Text>
+      </View>
+    );
+  }
 }

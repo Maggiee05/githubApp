@@ -22,10 +22,11 @@ export default class RepoScreen extends Component {
       let newUser = 'Maggiee05';
       const { route } = this.props;
       // console.log(props.route.params)
-      if (route.params !== undefined) {
+      try {
         newUser = route.params.userid;
+      } catch {
+        console.log('Currently main user');
       }
-      // console.log(newUser);
 
       this.state = {
         loading: true,

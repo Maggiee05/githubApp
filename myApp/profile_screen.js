@@ -21,8 +21,10 @@ export default class ProfileScreen extends Component {
       let newUser = 'Maggiee05';
       // console.log(props.route.params)
       const { route } = this.props;
-      if (route.params !== undefined) {
+      try {
         newUser = route.params.userid;
+      } catch {
+        console.log('Currently main user');
       }
 
       this.state = {

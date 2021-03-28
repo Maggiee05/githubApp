@@ -21,8 +21,10 @@ export default class FollowingScreen extends Component {
       super(props);
       let newUser = 'Maggiee05';
       const { route } = this.props;
-      if (route.params !== undefined) {
+      try {
         newUser = route.params.userid;
+      } catch {
+        console.log('Currently main user');
       }
 
       this.state = {

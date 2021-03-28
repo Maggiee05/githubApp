@@ -10,29 +10,31 @@ export default class Repo {
   constructor() {
     // this.accessToken = accessToken;
     this.data = null;
-    this.loading = true;
   }
 
-  async getRepo() {
+  async getRepo(userid) {
     const accessToken = token;
     const query = `
-            query { 
-                viewer {
-                    repositories(privacy: PUBLIC, first:100) {
-                        nodes {
-                            name
-                            owner{
-                                login
-                            }
-                            description
+        query RepoQuery($userid: String!){ 
+            user (login: $userid) {
+                repositories(privacy: PUBLIC, first:100) {
+                    nodes {
+                        name
+                        owner{
+                            login
                         }
+                        description
                     }
                 }
-            }`;
+            }
+        }`;
     try {
       const res = await fetch('https://api.github.com/graphql', {
         method: 'POST',
-        body: JSON.stringify({ query }),
+        body: JSON.stringify({
+          query,
+          variables: { userid },
+        }),
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -40,7 +42,6 @@ export default class Repo {
 
       const response = await res.json();
       this.data = response;
-      this.loading = false;
       return response;
     } catch (error) {
       return console.error(error);

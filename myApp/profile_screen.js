@@ -3,7 +3,6 @@ import {
   Text, View, Image, TouchableOpacity,
 } from 'react-native';
 
-// import token from './auth_token';
 import styles from './style';
 import Profile from './profile_model';
 
@@ -19,43 +18,58 @@ export default class ProfileScreen extends Component {
 
     constructor(props) {
       super(props);
-      //   this.state = {
-      //       hidden: true,
-      //   };
-      this.state = {};
-      //   const accessToken = token;
+      let newUser = 'Maggiee05';
+      // console.log(props.route.params)
+      const { route } = this.props;
+      if (route.params !== undefined) {
+        newUser = route.params.userid;
+      }
+
+      this.state = {
+        loading: true,
+        userid: newUser,
+      };
+
       this.profile = new Profile();
       this.setProfile();
     }
 
     async setProfile() {
-      const response = await this.profile.getProfile();
+      const { userid } = this.state;
+      const response = await this.profile.getProfile(userid);
       this.setState({
-        avatarUrl: response.data.viewer.avatarUrl,
-        name: response.data.viewer.name,
-        username: response.data.viewer.login,
-        bio: response.data.viewer.bio,
-        website: response.data.viewer.websiteUrl,
-        email: response.data.viewer.email,
-        RepoCt: response.data.viewer.repositories.totalCount,
-        followersCt: response.data.viewer.followers.totalCount,
-        followingCt: response.data.viewer.following.totalCount,
-        createDate: response.data.viewer.createdAt,
+        avatarUrl: response.data.user.avatarUrl,
+        name: response.data.user.name,
+        username: response.data.user.login,
+        bio: response.data.user.bio,
+        website: response.data.user.websiteUrl,
+        email: response.data.user.email,
+        RepoCt: response.data.user.repositories.totalCount,
+        followersCt: response.data.user.followers.totalCount,
+        followingCt: response.data.user.following.totalCount,
+        createDate: response.data.user.createdAt,
 
-        // loading: response.loading,
-        error: response.error,
+        loading: false,
+        // error: response.error,
       });
+    }
+
+    clickHandler(screen, userid) {
+      const { navigation } = this.props;
+      navigation.push(screen, { userid });
     }
 
     render() {
       const {
         avatarUrl, name, username, bio, website, email,
-        createDate, RepoCt, followersCt, followingCt, error,
+        createDate, RepoCt, followersCt, followingCt, loading,
       } = this.state;
-      const { navigation } = this.props;
-      if (error) {
+
+      if (loading) {
         return (
-          <Text>Error :( </Text>
+          <View style={styles.container}>
+            <Text style={styles.loading}>Loading... </Text>
+          </View>
         );
       }
       return (
@@ -70,24 +84,31 @@ export default class ProfileScreen extends Component {
           </Text>
           <Text style={styles.infoText}>
             Bio:
+            {' '}
             { bio }
           </Text>
           <Text style={styles.infoText}>
             Website:
+            {' '}
             {website}
           </Text>
           <Text style={styles.infoText}>
             Email:
+            {' '}
             {email}
           </Text>
           <Text style={styles.infoText}>
             Created at:
+            {' '}
             {createDate}
           </Text>
 
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.navigate('Repositories')}
+            onPress={() => {
+              // console.log(username);
+              this.clickHandler('Repositories', username);
+            }}
           >
             <Text style={styles.buttonText}>
               Repositories #
@@ -100,7 +121,9 @@ export default class ProfileScreen extends Component {
 
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.navigate('Followers')}
+            onPress={() => {
+              this.clickHandler('Followers', username);
+            }}
           >
             <Text style={styles.buttonText}>
               Followers #
@@ -112,7 +135,9 @@ export default class ProfileScreen extends Component {
 
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.navigate('Following')}
+            onPress={() => {
+              this.clickHandler('Following', username);
+            }}
           >
             <Text style={styles.buttonText}>
               Following #

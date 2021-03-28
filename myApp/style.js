@@ -3,23 +3,23 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
     backgroundColor: '#fff',
     alignItems: 'center',
-    // justifyContent: 'center',
+    justifyContent: 'center',
   },
   button: {
     width: 200,
     height: 50,
     backgroundColor: '#f0e68c',
-    // dcdcdc
     borderRadius: 100,
   },
   buttonText: {
     fontSize: 20,
     fontWeight: 'bold',
-    marginLeft: '8%',
+    marginLeft: '6%',
+    marginRight: '6%',
     marginTop: '6%',
+    textAlign: 'center',
   },
   space: {
     width: 20,
@@ -27,7 +27,7 @@ export default StyleSheet.create({
   },
   profileName: {
     marginTop: '8%',
-    fontSize: 25,
+    fontSize: 23,
     fontWeight: 'bold',
   },
   profileNameSub: {
@@ -38,18 +38,20 @@ export default StyleSheet.create({
   infoText: {
     marginTop: '5%',
     marginBottom: '5%',
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
   },
   repoName: {
     marginTop: '3%',
     marginLeft: '8%',
-    fontSize: 23,
+    marginRight: '8%',
+    fontSize: 22,
     fontWeight: 'bold',
   },
   repoOwner: {
-    marginTop: '1%',
+    marginTop: '3%',
     marginLeft: '8%',
+    marginRight: '8%',
     fontSize: 18,
     color: '#696969',
   },
@@ -57,12 +59,47 @@ export default StyleSheet.create({
     marginTop: '3%',
     marginBottom: '3%',
     marginLeft: '8%',
+    marginRight: '8%',
     fontSize: 15,
     color: '#808080',
   },
   repoTab: {
     marginTop: '2%',
-    borderRadius: 100,
+    borderRadius: 50,
     backgroundColor: '#dcdcdc',
+  },
+  loading: {
+    fontSize: 35,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    textAlignVertical: 'center',
+  },
+  followTab: {
+    marginTop: '3%',
+    borderRadius: 50,
+    backgroundColor: '#dcdcdc',
+    paddingVertical: 20,
+    flexDirection: 'row',
+  },
+  followImage: {
+    flex: 2.5,
+    width: 75,
+    height: 75,
+    resizeMode: 'contain',
+  },
+  followOwner: {
+    fontSize: 21,
+    // color: 'rgba(60, 60, 60, 1)',
+    fontWeight: '500',
+    flex: 2.5,
+    marginRight: '5%',
+    alignSelf: 'center',
+  },
+  followName: {
+    fontSize: 20,
+    color: '#696969',
+    flex: 2,
+    marginRight: '5%',
+    alignSelf: 'center',
   },
 });

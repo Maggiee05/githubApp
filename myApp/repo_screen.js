@@ -19,17 +19,29 @@ export default class RepoScreen extends Component {
 
     constructor(props) {
       super(props);
-      this.state = {};
+      let newUser = 'Maggiee05';
+      // console.log(props.route.params)
+      if (props.route.params !== undefined) {
+        newUser = props.route.params.userid;
+      }
+      // console.log(newUser);
+
+      this.state = {
+        loading: true,
+        userid: newUser,
+      };
       this.repo = new Repo();
       this.setRepository();
     }
 
     async setRepository() {
-      const response = await this.repo.getRepo();
+      // console.log(this.state.userid);
+      const { userid } = this.state;
+      const response = await this.repo.getRepo(userid);
       this.setState({
-        info: response.data.viewer.repositories.nodes,
+        info: response.data.user.repositories.nodes,
 
-        // loading: response.loading, // handling loading
+        loading: false,
       });
     }
 
@@ -37,31 +49,31 @@ export default class RepoScreen extends Component {
       const { info, loading } = this.state;
       if (loading) {
         return (
-          <Text>Loading....</Text>
+          <View style={styles.container}>
+            <Text style={styles.loading}>Loading... </Text>
+          </View>
         );
       }
       return (
-          <FlatList
-            data={info}
-            keyExtractor={(item) => {
-              return item.name;
-            }}
-            renderItem={({ item }) => (
-              <View>
-                <TouchableOpacity style={styles.repoTab}>
-                  <Text style={styles.repoName}>
-                    {item.name}
-                  </Text>
-                  <Text style={styles.repoOwner}>
-                    {item.owner.login}
-                  </Text>
-                  <Text style={styles.repoText}>
-                    {item.description}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            )}
-          />
+        <FlatList
+          data={info}
+          keyExtractor={(item) => item.name}
+          renderItem={({ item }) => (
+            <View>
+              <TouchableOpacity style={styles.repoTab}>
+                <Text style={styles.repoName}>
+                  {item.name}
+                </Text>
+                <Text style={styles.repoOwner}>
+                  {item.owner.login}
+                </Text>
+                <Text style={styles.repoText}>
+                  {item.description}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        />
       );
     }
 }

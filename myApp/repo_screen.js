@@ -20,15 +20,17 @@ export default class RepoScreen extends Component {
     constructor(props) {
       super(props);
       let newUser = 'Maggiee05';
+      const { route } = this.props;
       // console.log(props.route.params)
-      if (props.route.params !== undefined) {
-        newUser = props.route.params.userid;
+      if (route.params !== undefined) {
+        newUser = route.params.userid;
       }
       // console.log(newUser);
 
       this.state = {
         loading: true,
         userid: newUser,
+        error: false,
       };
       this.repo = new Repo();
       this.setRepository();
@@ -37,16 +39,28 @@ export default class RepoScreen extends Component {
     async setRepository() {
       // console.log(this.state.userid);
       const { userid } = this.state;
-      const response = await this.repo.getRepo(userid);
-      this.setState({
-        info: response.data.user.repositories.nodes,
+      let response = null;
+      try {
+        response = await this.repo.getRepo(userid);
+        this.setState({
+          info: response.data.user.repositories.nodes,
 
-        loading: false,
-      });
+          loading: false,
+        });
+      } catch (error) {
+        this.setState({ error: true });
+      }
     }
 
     render() {
-      const { info, loading } = this.state;
+      const { info, loading, error } = this.state;
+      if (error) {
+        return (
+          <View style={styles.container}>
+            <Text style={styles.loading}>Error!!! </Text>
+          </View>
+        );
+      }
       if (loading) {
         return (
           <View style={styles.container}>

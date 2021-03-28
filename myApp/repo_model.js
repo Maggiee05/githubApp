@@ -8,7 +8,6 @@ import token from './auth_token';
 
 export default class Repo {
   constructor() {
-    // this.accessToken = accessToken;
     this.data = null;
   }
 

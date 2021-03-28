@@ -28,6 +28,7 @@ export default class ProfileScreen extends Component {
       this.state = {
         loading: true,
         userid: newUser,
+        error: false,
       };
 
       this.profile = new Profile();
@@ -36,22 +37,26 @@ export default class ProfileScreen extends Component {
 
     async setProfile() {
       const { userid } = this.state;
-      const response = await this.profile.getProfile(userid);
-      this.setState({
-        avatarUrl: response.data.user.avatarUrl,
-        name: response.data.user.name,
-        username: response.data.user.login,
-        bio: response.data.user.bio,
-        website: response.data.user.websiteUrl,
-        email: response.data.user.email,
-        RepoCt: response.data.user.repositories.totalCount,
-        followersCt: response.data.user.followers.totalCount,
-        followingCt: response.data.user.following.totalCount,
-        createDate: response.data.user.createdAt,
-
-        loading: false,
-        // error: response.error,
-      });
+      let response = null;
+      try {
+        response = await this.profile.getProfile(userid);
+        this.setState({
+          avatarUrl: response.data.user.avatarUrl,
+          name: response.data.user.name,
+          username: response.data.user.login,
+          bio: response.data.user.bio,
+          website: response.data.user.websiteUrl,
+          email: response.data.user.email,
+          RepoCt: response.data.user.repositories.totalCount,
+          followersCt: response.data.user.followers.totalCount,
+          followingCt: response.data.user.following.totalCount,
+          createDate: response.data.user.createdAt,
+          loading: false,
+          error: false,
+        });
+      } catch (error) {
+        this.setState({ error: true });
+      }
     }
 
     clickHandler(screen, userid) {
@@ -62,9 +67,15 @@ export default class ProfileScreen extends Component {
     render() {
       const {
         avatarUrl, name, username, bio, website, email,
-        createDate, RepoCt, followersCt, followingCt, loading,
+        createDate, RepoCt, followersCt, followingCt, loading, error,
       } = this.state;
-
+      if (error) {
+        return (
+          <View style={styles.container}>
+            <Text style={styles.loading}>Error!!! </Text>
+          </View>
+        );
+      }
       if (loading) {
         return (
           <View style={styles.container}>

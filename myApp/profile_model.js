@@ -1,8 +1,5 @@
 import fetch from 'node-fetch';
-import { acc } from 'react-native-reanimated';
-
 import token from './auth_token';
-// import loading from './loading_screen';
 
 /**
  * The profile model class
@@ -11,21 +8,14 @@ import token from './auth_token';
 
 export default class Profile {
   constructor() {
-    // this.data = this.getProfile();
     this.data = null;
-    // this.accessToken = accessToken;
-    this.loading = true;
-    this.error = false;
-    // this.state = {
-    //   hidden: true,
-    // }
   }
 
-  async getProfile() {
+  async getProfile(userid) {
     const accessToken = token;
     const query = `
-      query { 
-        viewer { 
+      query GetQuery($userid: String!) { 
+        user (login: $userid) { 
           avatarUrl
           name
           login
@@ -48,15 +38,16 @@ export default class Profile {
     try {
       const res = await fetch('https://api.github.com/graphql', {
         method: 'POST',
-        body: JSON.stringify({ query }),
+        body: JSON.stringify({
+          query,
+          variables: { userid },
+        }),
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
 
       const response = await res.json();
-      // this.setState({hidden:false});
-      // this.loading = false;
       this.data = response;
       return response;
     } catch (error) {

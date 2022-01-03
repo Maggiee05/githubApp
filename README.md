@@ -1,9 +1,6 @@
 ## GitHub App
 A mobile application that presents a user’s GitHub profile and repository information
 
-## MOTIVATION
-CS242 Assignment 3
-
 ## TECH USED
 - JavaScript
 - GitHub API
